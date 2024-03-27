@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.studentscomprehensivequalityplatform.mapper.StudentMapper">
+
+    <select id="getById" resultType="com.example.studentscomprehensivequalityplatform.pojo.vo.RegisteredStudentsVO">
+        select a.*, b.signingTime from
+        (select s.id, s.student_number, s.name as studentName, c.name as collegeName, m.name as
+        majorName, s.grade, s.gender from students s left join college c on s.college_id = c.id left join major m on
+        s.major_id = m.id) a
+        right join
+        (select student_id, create_time as signingTime from students_activities where activity_id = #{activityId}) b
+        on a.id = b.student_id
+        order by signingTime
+    </select>
+    <select id="organizationMemberPage"
+            resultType="com.example.studentscomprehensivequalityplatform.pojo.vo.StuOrganizationMemberVO">
+        select a.* from
+        (select s.id, s.student_number, s.name, s.position, c.name as collegeName, m.name as majorName, s.grade from
+        students s left join college c on c.id = s.college_id left join major m on s.major_id = m.id) a
+        right join
+        (select student_id from stu_organization_students where stu_organization_id = #{id}) b
+        on a.id = b.student_id
+    </select>
+</mapper>

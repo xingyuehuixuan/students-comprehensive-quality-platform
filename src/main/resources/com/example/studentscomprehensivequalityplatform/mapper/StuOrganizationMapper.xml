@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.studentscomprehensivequalityplatform.mapper.StuOrganizationMapper">
+
+    <update id="updateStuOrganization">
+        update stu_organization
+        <set>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="orgName != null">
+                org_name = #{orgName},
+            </if>
+            <if test="affiliateUnit != null">
+                affiliate_unit = #{affiliateUnit},
+            </if>
+            <if test="principal != null">
+                principal = #{principal},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="adviser != null">
+                adviser = #{adviser},
+            </if>
+            <if test="orgProfile != null">
+                org_profile = #{orgProfile},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

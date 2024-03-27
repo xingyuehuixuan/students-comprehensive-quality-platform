@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.studentscomprehensivequalityplatform.mapper.ActivityMapper">
+
+    <select id="pageQuery" resultType="com.example.studentscomprehensivequalityplatform.pojo.entity.Activities">
+        select * from activities
+        <where>
+            <if test="orgName != null and orgName != ''">
+                and org_name like concat('%', #{orgName}, '%')
+            </if>
+            <if test="activityName != null and activityName != ''">
+                and activity_name like concat('%', #{activityName}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+</mapper>

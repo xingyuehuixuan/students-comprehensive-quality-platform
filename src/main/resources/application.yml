@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: ${scqp.datasource.driver-class-name}
+    url: jdbc:mysql://${scqp.datasource.host}:${scqp.datasource.port}/${scqp.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${scqp.datasource.username}
+    password: ${scqp.datasource.password}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+scqp:
+  alioss:
+    endpoint: ${scqp.alioss.endpoint}
+    access-key-id: ${scqp.alioss.access-key-id}
+    access-key-secret: ${scqp.alioss.access-key-secret}
+    bucket-name: ${scqp.alioss.bucket-name}
+  jwt:
+    student-secret-key: student
+    student-ttl: 7200000
+    student-token-name: studentToken
+    stuOrganization-secret-key: stuOrganization
+    stuOrganization-ttl: 7200000
+    stuOrganization-token-name: stuOrganizationToken
+    teacher-secret-key: teacher
+    teacher-ttl: 7200000
+    teacher-token-name: teacherToken
+
+logging:
+  level:
+    org.springframework.jdbc.support.jdbcTransactionManager: debug

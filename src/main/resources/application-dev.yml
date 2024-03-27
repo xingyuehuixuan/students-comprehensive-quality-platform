@@ -1,0 +1,13 @@
+scqp:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: students_comprehensive_quality_platform
+    username: root
+    password: whm20030304
+  alioss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    access-key-id: LTAI5t8AuNTfg8eDAjj8kWkS
+    access-key-secret: bzm3yqfkY0k7ZX6Lm5DpwnAPTu1ez6
+    bucket-name: scqp-demo
