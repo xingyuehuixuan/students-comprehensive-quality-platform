@@ -32,7 +32,7 @@ public interface StudentMapper {
      * @param stuOrganizationMemberPageDTO
      * @return
      */
-    Page<StuOrganizationMemberVO> organizationMemberPage(StuOrganizationMemberPageDTO stuOrganizationMemberPageDTO);
+    Page<StuOrganizationMemberVO> organizationMemberPage(StuOrganizationMemberPageDTO stuOrganizationMemberPageDTO, Integer id);
 
     /**
      *根据账号查询学生信息

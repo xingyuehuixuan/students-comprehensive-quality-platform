@@ -73,7 +73,7 @@
     <select id="registeredPageQuery"
             resultType="com.example.studentscomprehensivequalityplatform.pojo.entity.Activities">
         select * from activities right join
-        (select activity_id from students_activities where student_id = #{studentId}) a
+        (select activity_id from students_activities where student_id = #{id}) a
         on a.activity_id = activities.id
         <where>
             <if test="orgName != null and orgName != ''">

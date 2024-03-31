@@ -2,6 +2,7 @@ package com.example.studentscomprehensivequalityplatform.service.students.impl;
 
 import com.example.studentscomprehensivequalityplatform.common.constant.MessageConstant;
 import com.example.studentscomprehensivequalityplatform.common.constant.StatusConstant;
+import com.example.studentscomprehensivequalityplatform.common.context.BaseContext;
 import com.example.studentscomprehensivequalityplatform.common.exception.ActivitySignUpFailedException;
 import com.example.studentscomprehensivequalityplatform.common.exception.CancelRegistrationFailedException;
 import com.example.studentscomprehensivequalityplatform.common.result.PageResult;
@@ -16,15 +17,13 @@ import com.example.studentscomprehensivequalityplatform.service.students.Activit
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
-@Service
+@Service("studentsActivityServiceImpl")
 @Slf4j
 public class  ActivityServiceImpl implements ActivityService {
 
@@ -51,13 +50,14 @@ public class  ActivityServiceImpl implements ActivityService {
 
     /**
      * 已报活动分页查询
-     * @param registeredActivityPageQueryDTO
+     * @param activityPageQueryDTO
      * @return
      */
     @Override
-    public PageResult registeredPageQuery(RegisteredActivityPageQueryDTO registeredActivityPageQueryDTO) {
-        PageHelper.startPage(registeredActivityPageQueryDTO.getPage(), registeredActivityPageQueryDTO.getPageSize());
-        Page<Activities> page = activityMapper.registeredPageQuery(registeredActivityPageQueryDTO);
+    public PageResult registeredPageQuery(ActivityPageQueryDTO activityPageQueryDTO) {
+        PageHelper.startPage(activityPageQueryDTO.getPage(), activityPageQueryDTO.getPageSize());
+        Page<Activities> page = activityMapper.registeredPageQuery(activityPageQueryDTO,
+                Math.toIntExact(BaseContext.getCurrentId()));
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -89,33 +89,32 @@ public class  ActivityServiceImpl implements ActivityService {
 
     /**
      * 学生报名活动
-     * @param studentSignUpActivityDTO
+     * @param activityId
      */
     @Override
-    public void signUp(StudentSignUpActivityDTO studentSignUpActivityDTO) {
-        Activities activities = activityMapper.getById(studentSignUpActivityDTO.getActivityId());
+    public void signUp(Integer activityId) {
+        Activities activities = activityMapper.getById(activityId);
         if (!Objects.equals(activities.getStatus(), StatusConstant.SIGNUP_PHASE)){
             throw new ActivitySignUpFailedException(MessageConstant.NOT_IN_SIGNUP_STAGE);
         }
         StudentsActivities studentsActivities = new StudentsActivities();
-        BeanUtils.copyProperties(studentSignUpActivityDTO,studentsActivities);
+        studentsActivities.setActivityId(activityId);
+        studentsActivities.setStudentId(Math.toIntExact(BaseContext.getCurrentId()));
         studentsActivities.setCreateTime(LocalDateTime.now());
         studentActivityMapper.insert(studentsActivities);
     }
 
-
     /**
      *学生取消报名
-     * @param studentsCancelRegistrationDTO
+     * @param activityId
      */
     @Override
-    public void deleteById(StudentsCancelRegistrationDTO studentsCancelRegistrationDTO) {
-        Activities activities = activityMapper.getById(studentsCancelRegistrationDTO.getActivityId());
+    public void deleteById(Integer activityId) {
+        Activities activities = activityMapper.getById(activityId);
         if (!Objects.equals(activities.getStatus(), StatusConstant.SIGNUP_PHASE)){
             throw new CancelRegistrationFailedException(MessageConstant.NOT_IN_SIGNUP_STAGE);
         }
-        studentActivityMapper.deleteById(studentsCancelRegistrationDTO.getActivityId(),
-                studentsCancelRegistrationDTO.getStudentId());
+        studentActivityMapper.deleteById(activityId, Math.toIntExact(BaseContext.getCurrentId()));
     }
 
 

@@ -9,7 +9,7 @@ import com.example.studentscomprehensivequalityplatform.service.stuOrganizations
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("stuOrganizationsActivityController")
 @RequestMapping("/stuOrganization/activities")
 public class ActivityController {
 

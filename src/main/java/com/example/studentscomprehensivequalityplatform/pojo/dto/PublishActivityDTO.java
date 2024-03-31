@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 @Data
 public class PublishActivityDTO {
-    private Integer orgId;
     private String activityName;
     private String signingCondition;
     private LocalDate signingStartTime;

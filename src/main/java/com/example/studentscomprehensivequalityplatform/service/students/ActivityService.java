@@ -23,22 +23,22 @@ public interface ActivityService {
 
     /**
      * 学生报名活动
-     * @param studentSignUpActivityDTO
+     * @param activityId
      */
-    void signUp(StudentSignUpActivityDTO studentSignUpActivityDTO);
+    void signUp(Integer activityId);
 
     /**
      * 已报活动分页查询
-     * @param registeredActivityPageQueryDTO
+     * @param activityPageQueryDTO
      * @return
      */
-    PageResult registeredPageQuery(RegisteredActivityPageQueryDTO registeredActivityPageQueryDTO);
+    PageResult registeredPageQuery(ActivityPageQueryDTO activityPageQueryDTO);
 
     /**
      * 学生取消报名
-     * @param studentsCancelRegistrationDTO
+     * @param activityId
      */
-    void deleteById(StudentsCancelRegistrationDTO studentsCancelRegistrationDTO);
+    void deleteById(Integer activityId);
 
     /**
      * 已报名人员名单分页查询

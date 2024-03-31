@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.studentscomprehensivequalityplatform.mapper.ActivityMapper">
+    <insert id="publishActivity" useGeneratedKeys="true" keyProperty="id">
+        insert into activities (activity_name, signing_condition, signing_start_time, signing_end_time,
+        activity_start_time, activity_end_time, org_name, activity_level, participant_number, status, activity_profile,
+        activity_document, create_time, update_time) values
+        (#{activityName}, #{signingCondition}, #{signingStartTime}, #{signingEndTime}, #{activityStartTime},
+         #{activityEndTime}, #{orgName}, #{activityLevel}, #{participantNumber}, #{status}, #{activityProfile},
+         #{activityDocument}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="updateActivity">
+        update activities
+        <set>
+            <if test="activityName != null">
+                activity_name = #{activityName},
+            </if>
+            <if test="signingCondition != null">
+                signing_condition = #{signingCondition},
+            </if>
+            <if test="signingStartTime != null">
+                signing_start_time = #{signingStartTime},
+            </if>
+            <if test="signingEndTime != null">
+                signing_end_time = #{signingEndTime},
+            </if>
+            <if test="activityStartTime != null">
+                activity_start_time = #{activityStartTime},
+            </if>
+            <if test="activityEndTime != null">
+                activity_end_time = #{activityEndTime},
+            </if>
+            <if test="orgName != null">
+                org_name = #{orgName},
+            </if>
+            <if test="activityLevel != null">
+                activity_level = #{activityLevel},
+            </if>
+            <if test="participantNumber != null">
+                participant_number = #{participantNumber},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="activityProfile != null">
+                activity_profile = #{activityProfile},
+            </if>
+            <if test="activityDocument != null">
+                activity_document = #{activityDocument},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="pageQuery" resultType="com.example.studentscomprehensivequalityplatform.pojo.entity.Activities">
         select * from activities
@@ -8,6 +64,33 @@
             <if test="orgName != null and orgName != ''">
                 and org_name like concat('%', #{orgName}, '%')
             </if>
+            <if test="activityName != null and activityName != ''">
+                and activity_name like concat('%', #{activityName}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="registeredPageQuery"
+            resultType="com.example.studentscomprehensivequalityplatform.pojo.entity.Activities">
+        select * from activities right join
+        (select activity_id from students_activities where student_id = #{studentId}) a
+        on a.activity_id = activities.id
+        <where>
+            <if test="orgName != null and orgName != ''">
+                and org_name like concat('%', #{orgName}, '%')
+            </if>
+            <if test="activityName != null and activityName != ''">
+                and activity_name like concat('%', #{activityName}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="publishedActivitiesPage"
+            resultType="com.example.studentscomprehensivequalityplatform.pojo.entity.Activities">
+        select * from activities right join
+        (select activity_id from stu_organization_activities where org_id = #{id}) a
+        on a.activity_id = activities.id
+        <where>
             <if test="activityName != null and activityName != ''">
                 and activity_name like concat('%', #{activityName}, '%')
             </if>

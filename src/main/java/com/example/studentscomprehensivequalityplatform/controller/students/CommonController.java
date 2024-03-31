@@ -1,6 +1,7 @@
 package com.example.studentscomprehensivequalityplatform.controller.students;
 
 import com.example.studentscomprehensivequalityplatform.common.constant.JwtClaimsConstant;
+import com.example.studentscomprehensivequalityplatform.common.context.BaseContext;
 import com.example.studentscomprehensivequalityplatform.common.properties.JwtProperties;
 import com.example.studentscomprehensivequalityplatform.common.result.Result;
 import com.example.studentscomprehensivequalityplatform.common.utils.JwtUtil;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@RestController("studentsCommonController")
 @RequestMapping("/students/common")
 public class CommonController {
     @Autowired
@@ -25,12 +26,11 @@ public class CommonController {
 
     /**
      * 根据学生id查询姓名
-     * @param id
      * @return
      */
     @GetMapping("/studentName")
-    public Result<StudentNameVO> getById(Integer id){
-        StudentNameVO studentNameVO = commonService.getById(id);
+    public Result<StudentNameVO> getById(){
+        StudentNameVO studentNameVO = commonService.getById(Math.toIntExact(BaseContext.getCurrentId()));
         return Result.success(studentNameVO);
     }
 

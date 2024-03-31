@@ -2,6 +2,7 @@ package com.example.studentscomprehensivequalityplatform.controller.stuOrganizat
 
 import com.example.studentscomprehensivequalityplatform.common.constant.JwtClaimsConstant;
 import com.example.studentscomprehensivequalityplatform.common.constant.MessageConstant;
+import com.example.studentscomprehensivequalityplatform.common.context.BaseContext;
 import com.example.studentscomprehensivequalityplatform.common.properties.JwtProperties;
 import com.example.studentscomprehensivequalityplatform.common.result.Result;
 import com.example.studentscomprehensivequalityplatform.common.utils.AliOssUtil;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RestController
+@RestController("stuOrganizationsCommonController")
 @RequestMapping("/stuOrganization/common")
 public class CommonController {
 
@@ -32,12 +33,11 @@ public class CommonController {
 
     /**
      * 根据学生组织id查询名称
-     * @param id
      * @return
      */
     @GetMapping("/stuOrganizationName")
-    public Result<StuOrganizationNameVO> getById(Integer id){
-        StuOrganizationNameVO stuOrganizationNameVO = commonService.getById(id);
+    public Result<StuOrganizationNameVO> getById(){
+        StuOrganizationNameVO stuOrganizationNameVO = commonService.getById(Math.toIntExact(BaseContext.getCurrentId()));
         return Result.success(stuOrganizationNameVO);
     }
 

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-@Service
+@Service("studentsCommonServiceImpl")
 public class CommonServiceImpl implements CommonService {
 
     @Autowired

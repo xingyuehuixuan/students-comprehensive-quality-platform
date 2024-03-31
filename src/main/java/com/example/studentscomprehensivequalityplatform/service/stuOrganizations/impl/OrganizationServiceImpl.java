@@ -1,5 +1,6 @@
 package com.example.studentscomprehensivequalityplatform.service.stuOrganizations.impl;
 
+import com.example.studentscomprehensivequalityplatform.common.context.BaseContext;
 import com.example.studentscomprehensivequalityplatform.common.result.PageResult;
 import com.example.studentscomprehensivequalityplatform.common.result.Result;
 import com.example.studentscomprehensivequalityplatform.mapper.StuOrganizationMapper;
@@ -42,6 +43,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public void updateStuOrganization(StuOrganization stuOrganization) {
         stuOrganization.setUpdateTime(LocalDateTime.now());
+        stuOrganization.setId(Math.toIntExact(BaseContext.getCurrentId()));
         stuOrganizationMapper.updateStuOrganization(stuOrganization);
     }
 
@@ -53,7 +55,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public PageResult organizationMemberPage(StuOrganizationMemberPageDTO stuOrganizationMemberPageDTO) {
         PageHelper.startPage(stuOrganizationMemberPageDTO.getPage(), stuOrganizationMemberPageDTO.getPageSize());
-        Page<StuOrganizationMemberVO> page = studentMapper.organizationMemberPage(stuOrganizationMemberPageDTO);
+        Page<StuOrganizationMemberVO> page = studentMapper.organizationMemberPage(stuOrganizationMemberPageDTO,
+                Math.toIntExact(BaseContext.getCurrentId()));
         return new PageResult(page.getTotal(), page.getResult());
     }
 }

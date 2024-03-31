@@ -1,5 +1,6 @@
 package com.example.studentscomprehensivequalityplatform.controller.stuOrganizations;
 
+import com.example.studentscomprehensivequalityplatform.common.context.BaseContext;
 import com.example.studentscomprehensivequalityplatform.common.result.PageResult;
 import com.example.studentscomprehensivequalityplatform.common.result.Result;
 import com.example.studentscomprehensivequalityplatform.pojo.dto.StuOrganizationMemberPageDTO;
@@ -18,12 +19,11 @@ public class OrganizationController {
 
     /**
      * 根据Id查询学生组织信息
-     * @param id
      * @return
      */
-    @GetMapping("/{id}")
-    public Result<StuOrganization> getById(@PathVariable Integer id){
-        StuOrganization stuOrganization = organizationService.getById(id);
+    @GetMapping()
+    public Result<StuOrganization> getById(){
+        StuOrganization stuOrganization = organizationService.getById(Math.toIntExact(BaseContext.getCurrentId()));
         return Result.success(stuOrganization);
     }
 

@@ -1,6 +1,7 @@
 package com.example.studentscomprehensivequalityplatform.service.stuOrganizations.impl;
 
 import com.example.studentscomprehensivequalityplatform.common.constant.StatusConstant;
+import com.example.studentscomprehensivequalityplatform.common.context.BaseContext;
 import com.example.studentscomprehensivequalityplatform.common.result.PageResult;
 import com.example.studentscomprehensivequalityplatform.mapper.ActivityMapper;
 import com.example.studentscomprehensivequalityplatform.mapper.StuOrganizationActivityMapper;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Service
+@Service("stuOrganizationsActivityServiceImpl")
 public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
@@ -33,7 +34,8 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public PageResult publishedActivitiesPage(PublishedActivityPageDTO publishedActivityPageDTO) {
         PageHelper.startPage(publishedActivityPageDTO.getPage(), publishedActivityPageDTO.getPageSize());
-        Page<Activities> page = activityMapper.publishedActivitiesPage(publishedActivityPageDTO);
+        Page<Activities> page = activityMapper.publishedActivitiesPage(publishedActivityPageDTO,
+                Math.toIntExact(BaseContext.getCurrentId()));
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -50,7 +52,7 @@ public class ActivityServiceImpl implements ActivityService {
         activities.setUpdateTime(LocalDateTime.now());
         activityMapper.publishActivity(activities);
         Integer id = activities.getId();
-        stuOrganizationActivityMapper.insert(id, publishActivityDTO.getOrgId(), activities.getCreateTime());
+        stuOrganizationActivityMapper.insert(id, Math.toIntExact(BaseContext.getCurrentId()), activities.getCreateTime());
     }
 
     /**

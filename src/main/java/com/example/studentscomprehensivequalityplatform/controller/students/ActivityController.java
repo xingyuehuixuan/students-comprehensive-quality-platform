@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("studentsActivityController")
 @RequestMapping("/students/activities")
 @Slf4j
 public class ActivityController {
@@ -32,12 +32,12 @@ public class ActivityController {
 
     /**
      * 已报活动分页查询
-     * @param registeredActivityPageQueryDTO
+     * @param activityPageQueryDTO
      * @return
      */
     @GetMapping("/registeredPage")
-    public Result<PageResult> registeredPage(RegisteredActivityPageQueryDTO registeredActivityPageQueryDTO){
-        PageResult pageResult = activityService.registeredPageQuery(registeredActivityPageQueryDTO);
+    public Result<PageResult> registeredPage(ActivityPageQueryDTO activityPageQueryDTO){
+        PageResult pageResult = activityService.registeredPageQuery(activityPageQueryDTO);
         return Result.success(pageResult);
     }
 
@@ -65,23 +65,23 @@ public class ActivityController {
 
     /**
      * 学生报名活动
-     * @param studentSignUpActivityDTO
+     * @param activityId
      * @return
      */
     @PostMapping("/enrollActivity")
-    public Result signUp(@RequestBody StudentSignUpActivityDTO studentSignUpActivityDTO){
-        activityService.signUp(studentSignUpActivityDTO);
+    public Result signUp(Integer activityId){
+        activityService.signUp(activityId);
         return Result.success();
     }
 
     /**
      * 学生取消报名
-     * @param studentsCancelRegistrationDTO
+     * @param activityId
      * @return
      */
     @DeleteMapping("/cancelRegistration")
-    public Result deleteById(@RequestBody StudentsCancelRegistrationDTO studentsCancelRegistrationDTO){
-        activityService.deleteById(studentsCancelRegistrationDTO);
+    public Result deleteById(Integer activityId){
+        activityService.deleteById(activityId);
         return Result.success();
     }
 }
