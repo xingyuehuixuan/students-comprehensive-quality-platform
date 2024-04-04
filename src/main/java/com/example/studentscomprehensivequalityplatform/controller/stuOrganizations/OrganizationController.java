@@ -8,6 +8,8 @@ import com.example.studentscomprehensivequalityplatform.pojo.entity.StuOrganizat
 import com.example.studentscomprehensivequalityplatform.service.stuOrganizations.OrganizationService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +24,7 @@ public class OrganizationController {
      * @return
      */
     @GetMapping()
+    @Cacheable(cacheNames = "stuOrganizationCache", key = "#result.data.id")
     public Result<StuOrganization> getById(){
         StuOrganization stuOrganization = organizationService.getById(Math.toIntExact(BaseContext.getCurrentId()));
         return Result.success(stuOrganization);
@@ -33,6 +36,7 @@ public class OrganizationController {
      * @return
      */
     @PutMapping("/updateStuOrganization")
+    @CacheEvict(cacheNames = "stuOrganizationCache", key = "#stuOrganization.id")
     public Result updateStuOrganization(@RequestBody StuOrganization stuOrganization){
         organizationService.updateStuOrganization(stuOrganization);
         return Result.success();

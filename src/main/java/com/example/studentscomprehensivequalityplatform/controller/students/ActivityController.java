@@ -8,6 +8,9 @@ import com.example.studentscomprehensivequalityplatform.pojo.vo.RegisteredStuden
 import com.example.studentscomprehensivequalityplatform.service.students.ActivityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("studentsActivityController")
@@ -24,6 +27,7 @@ public class ActivityController {
      * @return
      */
     @GetMapping("/page")
+    @Cacheable(cacheNames = "activityPageCache", key = "#activityPageQueryDTO.page + #activityPageQueryDTO.pageSize")
     public Result<PageResult> page(ActivityPageQueryDTO activityPageQueryDTO){
         log.info("分页查询：{}", activityPageQueryDTO);
         PageResult pageResult =activityService.pageQuery(activityPageQueryDTO);
@@ -47,6 +51,7 @@ public class ActivityController {
      * @return
      */
     @GetMapping("/registeredStudentsPage")
+    @Cacheable(cacheNames = "registeredStudentsCache", key = "#activityId")
     public Result<RegisteredStudentsVO> registeredStudentsPage(Integer activityId){
         RegisteredStudentsVO registeredStudentsVO = activityService.registeredStudentPageQuery(activityId);
         return Result.success(registeredStudentsVO);
@@ -58,6 +63,7 @@ public class ActivityController {
      * @return
      */
     @GetMapping("/{id}")
+    @Cacheable(cacheNames = "activityCache", key = "#id")
     public Result<Activities> getById(@PathVariable Integer id){
         Activities activities = activityService.getById(id);
         return Result.success(activities);
@@ -69,6 +75,7 @@ public class ActivityController {
      * @return
      */
     @PostMapping("/enrollActivity")
+    @CacheEvict(cacheNames = "registeredStudentsCache", key = "#activityId")
     public Result signUp(Integer activityId){
         activityService.signUp(activityId);
         return Result.success();
@@ -80,6 +87,7 @@ public class ActivityController {
      * @return
      */
     @DeleteMapping("/cancelRegistration")
+    @CacheEvict(cacheNames = "registeredStudentsCache", key = "#activityId")
     public Result deleteById(Integer activityId){
         activityService.deleteById(activityId);
         return Result.success();

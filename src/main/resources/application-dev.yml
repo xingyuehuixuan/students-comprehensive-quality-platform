@@ -11,3 +11,9 @@ scqp:
     access-key-id: LTAI5t8AuNTfg8eDAjj8kWkS
     access-key-secret: bzm3yqfkY0k7ZX6Lm5DpwnAPTu1ez6
     bucket-name: scqp-demo
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: whm20030304
+      database: 1

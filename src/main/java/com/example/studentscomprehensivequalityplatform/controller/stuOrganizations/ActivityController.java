@@ -7,6 +7,7 @@ import com.example.studentscomprehensivequalityplatform.pojo.dto.PublishedActivi
 import com.example.studentscomprehensivequalityplatform.pojo.entity.Activities;
 import com.example.studentscomprehensivequalityplatform.service.stuOrganizations.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("stuOrganizationsActivityController")
@@ -33,6 +34,7 @@ public class ActivityController {
      * @return
      */
     @PostMapping("/publishActivity")
+    @CacheEvict(cacheNames = "activityPageCache", allEntries = true)
     public Result publishActivity(@RequestBody PublishActivityDTO publishActivityDTO){
         activityService.publishActivity(publishActivityDTO);
         return Result.success();
@@ -44,6 +46,7 @@ public class ActivityController {
      * @return
      */
     @PutMapping("/updateActivity")
+    @CacheEvict(cacheNames = "activityCache", key = "#activities.id")
     public Result updateActivity(@RequestBody Activities activities){
         activityService.updateActivity(activities);
         return Result.success();

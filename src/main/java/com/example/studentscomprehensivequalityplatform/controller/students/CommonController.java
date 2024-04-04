@@ -11,6 +11,7 @@ import com.example.studentscomprehensivequalityplatform.pojo.vo.StudentNameVO;
 import com.example.studentscomprehensivequalityplatform.service.students.ActivityService;
 import com.example.studentscomprehensivequalityplatform.service.students.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public class CommonController {
      * @return
      */
     @GetMapping("/studentName")
+    @Cacheable(cacheNames = "studentNameCache", key = "#result.data.id")
     public Result<StudentNameVO> getById(){
         StudentNameVO studentNameVO = commonService.getById(Math.toIntExact(BaseContext.getCurrentId()));
         return Result.success(studentNameVO);

@@ -41,4 +41,12 @@ public interface StudentMapper {
      */
     @Select("select * from students where account_number = #{accountNumber}")
     Students getByAccountNumber(String accountNumber);
+
+    /**
+     * 根据ID查询学生信息
+     * @param studentId
+     * @return
+     */
+    @Select("select * from students where id = #{studentId}")
+    Students getStudentsById(int studentId);
 }
