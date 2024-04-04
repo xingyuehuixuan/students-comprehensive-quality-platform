@@ -4,12 +4,16 @@ import com.example.studentscomprehensivequalityplatform.common.context.BaseConte
 import com.example.studentscomprehensivequalityplatform.mapper.CollegeMapper;
 import com.example.studentscomprehensivequalityplatform.mapper.MajorMapper;
 import com.example.studentscomprehensivequalityplatform.mapper.StudentMapper;
+import com.example.studentscomprehensivequalityplatform.pojo.dto.StudentUpdateDTO;
 import com.example.studentscomprehensivequalityplatform.pojo.entity.Students;
 import com.example.studentscomprehensivequalityplatform.pojo.vo.StudentsPersonalVO;
 import com.example.studentscomprehensivequalityplatform.service.students.PersonalService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 public class PersonalServiceImpl implements PersonalService {
@@ -20,6 +24,7 @@ public class PersonalServiceImpl implements PersonalService {
     private CollegeMapper collegeMapper;
     @Autowired
     private MajorMapper majorMapper;
+
     /**
      * 根据ID查询学生信息
      * @return
@@ -33,6 +38,27 @@ public class PersonalServiceImpl implements PersonalService {
         BeanUtils.copyProperties(students, studentsPersonalVO);
         studentsPersonalVO.setCollege(collegeName);
         studentsPersonalVO.setMajor(majorName);
+        studentsPersonalVO.setPassword("******");
         return studentsPersonalVO;
+    }
+
+    /**
+     * 修改学生信息
+     * @param studentUpdateDTO
+     */
+    @Override
+    public void update(StudentUpdateDTO studentUpdateDTO) {
+        if (Objects.equals(studentUpdateDTO.getPassword(), "******")){
+            studentUpdateDTO.setPassword(null);
+        }
+        Integer collegeId = collegeMapper.getIdByName(studentUpdateDTO.getCollege());
+        Integer majorId = majorMapper.getIdByName(studentUpdateDTO.getMajor());
+        Students students = new Students();
+        BeanUtils.copyProperties(studentUpdateDTO, students);
+        students.setCollegeId(collegeId);
+        students.setMajorId(majorId);
+        students.setUpdateTime(LocalDateTime.now());
+        students.setId(Math.toIntExact(BaseContext.getCurrentId()));
+        studentMapper.update(students);
     }
 }

@@ -13,4 +13,12 @@ public interface CollegeMapper {
      */
     @Select("select name from college where id = #{collegeId}")
     String getNameById(Integer collegeId);
+
+    /**
+     * 根据名称查询ID
+     * @param college
+     * @return
+     */
+    @Select("select id from college where name = #{college}")
+    Integer getIdByName(String college);
 }

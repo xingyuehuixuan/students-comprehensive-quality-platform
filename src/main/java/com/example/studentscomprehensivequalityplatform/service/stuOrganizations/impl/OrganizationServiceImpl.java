@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
@@ -33,6 +34,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public StuOrganization getById(Integer id) {
         StuOrganization stuOrganization = stuOrganizationMapper.getById(id);
+        stuOrganization.setPassword("******");
         return stuOrganization;
     }
 
@@ -42,6 +44,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public void updateStuOrganization(StuOrganization stuOrganization) {
+        if (Objects.equals(stuOrganization.getPassword(), "******")){
+            stuOrganization.setPassword(null);
+        }
         stuOrganization.setUpdateTime(LocalDateTime.now());
         stuOrganization.setId(Math.toIntExact(BaseContext.getCurrentId()));
         stuOrganizationMapper.updateStuOrganization(stuOrganization);

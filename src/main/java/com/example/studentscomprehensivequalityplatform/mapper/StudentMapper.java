@@ -49,4 +49,10 @@ public interface StudentMapper {
      */
     @Select("select * from students where id = #{studentId}")
     Students getStudentsById(int studentId);
+
+    /**
+     * 动态更新学生信息
+     * @param students
+     */
+    void update(Students students);
 }

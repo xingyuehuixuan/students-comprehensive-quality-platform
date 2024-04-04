@@ -1,5 +1,6 @@
 package com.example.studentscomprehensivequalityplatform.service.students;
 
+import com.example.studentscomprehensivequalityplatform.pojo.dto.StudentUpdateDTO;
 import com.example.studentscomprehensivequalityplatform.pojo.vo.StudentsPersonalVO;
 
 public interface PersonalService {
@@ -9,4 +10,10 @@ public interface PersonalService {
      * @return
      */
     StudentsPersonalVO getById();
+
+    /**
+     * 修改学生信息
+     * @param studentUpdateDTO
+     */
+    void update(StudentUpdateDTO studentUpdateDTO);
 }

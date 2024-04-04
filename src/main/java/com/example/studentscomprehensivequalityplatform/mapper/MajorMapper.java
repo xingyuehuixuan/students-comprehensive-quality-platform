@@ -13,4 +13,12 @@ public interface MajorMapper {
      */
     @Select("select name from major where id = #{majorId}")
     String getNameById(Integer majorId);
+
+    /**
+     * 根据名称查询ID
+     * @param major
+     * @return
+     */
+    @Select("select id from major where name = #{major}")
+    Integer getIdByName(String major);
 }
