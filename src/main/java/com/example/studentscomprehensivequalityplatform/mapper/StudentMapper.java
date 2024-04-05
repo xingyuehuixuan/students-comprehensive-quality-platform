@@ -55,4 +55,28 @@ public interface StudentMapper {
      * @param students
      */
     void update(Students students);
+
+    /**
+     * 根据学生ID查询学院ID
+     * @param stuId
+     * @return
+     */
+    @Select("select college_id from students where id = #{stuId}")
+    Integer getCollegeId(Integer stuId);
+
+    /**
+     * 根据学生ID查询专业ID
+     * @param stuId
+     * @return
+     */
+    @Select("select major_id from students where id = #{stuId}")
+    Integer getMajorId(Integer stuId);
+
+    /**
+     * 根据ID查询学号
+     * @param stuId
+     * @return
+     */
+    @Select("select student_number from students where id = #{stuId}")
+    String getStudentNumber(Integer stuId);
 }
