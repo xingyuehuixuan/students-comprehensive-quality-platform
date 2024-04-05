@@ -53,12 +53,12 @@ public class PersonalServiceImpl implements PersonalService {
         }
         Integer collegeId = collegeMapper.getIdByName(studentUpdateDTO.getCollege());
         Integer majorId = majorMapper.getIdByName(studentUpdateDTO.getMajor());
+        studentUpdateDTO.setId(Math.toIntExact(BaseContext.getCurrentId()));
         Students students = new Students();
         BeanUtils.copyProperties(studentUpdateDTO, students);
         students.setCollegeId(collegeId);
         students.setMajorId(majorId);
         students.setUpdateTime(LocalDateTime.now());
-        students.setId(Math.toIntExact(BaseContext.getCurrentId()));
         studentMapper.update(students);
     }
 }

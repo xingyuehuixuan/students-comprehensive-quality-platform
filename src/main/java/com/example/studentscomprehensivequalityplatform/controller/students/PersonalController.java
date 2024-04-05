@@ -6,6 +6,7 @@ import com.example.studentscomprehensivequalityplatform.pojo.dto.StudentUpdateDT
 import com.example.studentscomprehensivequalityplatform.pojo.vo.StudentsPersonalVO;
 import com.example.studentscomprehensivequalityplatform.service.students.PersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ public class PersonalController {
      * @return
      */
     @PutMapping("/update")
+    @CacheEvict(cacheNames = "studentCache", key = "#studentUpdateDTO.id")
     public Result update(@RequestBody StudentUpdateDTO studentUpdateDTO){
         personalService.update(studentUpdateDTO);
         return Result.success();

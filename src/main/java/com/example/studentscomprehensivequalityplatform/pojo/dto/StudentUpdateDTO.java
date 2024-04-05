@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class StudentUpdateDTO {
+    private Integer id;
     private String username;
     private String email;
     private String password;
